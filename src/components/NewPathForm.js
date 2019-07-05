@@ -33,13 +33,6 @@ export class NewPathForm extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-
-/*      const {
-      pathName,
-      shortDescription,
-      fullDescription
-    } = this.state;  */
-
     this.props.addPathToList(this.state.pathName, this.state.shortDescription, this.state.fullDescription);
     this.setState({
       pathName: '',

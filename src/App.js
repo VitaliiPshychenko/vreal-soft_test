@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import './App.css';
 import { NewPathForm } from './components/NewPathForm';
-import { Container, ListGroup, ListGroupItem, Col, Button, Navbar, Form, Row } from 'react-bootstrap';
-import { PathDetails } from './components/PathDetails';
+import { Container, Col, Button, Navbar, Form, Row, Tab } from 'react-bootstrap';
+import { PathItem } from './components/PathItem';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      data: [],
+      data: [
+        {title: "1", short: "2", full: "3"},
+        {title: "Shop", short: "path to shop", full: "path to absolute"},
+        {title: "home", short: "path to home", full: "path to Sahunivka"}
+      ],
       showForm: false,
       query: '',
-      selectedItem: null
+      selectedIndex: null,
+      elected: false
     };
-
   };
 
   onTitleChange = (event) => {
@@ -35,7 +39,6 @@ class App extends Component {
     });
   };
  
-
   addPathToList = (title, short, full) => {  
      this.setState(({ data }) => {
       const newData = [
@@ -76,13 +79,26 @@ class App extends Component {
   onSearchChange = (event) => {
     this.setState({
       query: event.target.value
-    })
-  }
+    });
+  };
 
-  openDetails = (event) => {
-    const idx = this.state.data.findIndex(item => item === event.target.value);
-    console.log(idx)
-  }
+  selectItem = (event, index) => {
+    event.preventDefault();
+    this.setState({
+      selectedIndex: index
+    });
+  };
+
+  removeItem = (event) => {
+    event.preventDefault();
+    const { data, selectedIndex } = this.state;
+    const newData = [...data.slice(0, selectedIndex), ...data.slice(selectedIndex + 1)];
+
+    this.setState({
+      data: newData,
+      selectedIndex: null
+    });
+  };
 
   render() {
     const {
@@ -90,7 +106,7 @@ class App extends Component {
       showForm,
       query
     } = this.state;
-
+    
     const filteredItems = this.search(data, query)
 
     return (
@@ -99,6 +115,7 @@ class App extends Component {
           <Navbar.Brand href="#home">Saunter</Navbar.Brand>
           <Button onClick={this.toggleForm} disabled={showForm ? true : false}>Add path</Button>
         </Navbar>
+
         {showForm 
           ? <NewPathForm
               addPathToList={this.addPathToList}
@@ -106,23 +123,32 @@ class App extends Component {
             />
           : null
         }
-        <Col xs={6}>
-          <Form.Control type="text" placeholder="Search..." value={query} onChange={this.onSearchChange}/>
-        </Col>
-        
-        <ListGroup>
-        {filteredItems.map(item => {
-            return (
-              <Col xs={6} key={item.title} >
-                <ListGroupItem className="list-item" >
-                  <p className="title">{item.title}</p>
-                  <p>{item.short}</p>
-                </ListGroupItem>
+
+        <Tab.Container id="list-group-tabs-example">
+          <Container className="main-container">
+            <Row>
+              <Col xs={6} className="search">
+                <Form.Control type="text" placeholder="Search..." className="pr-5" value={query} onChange={this.onSearchChange}/>
               </Col>
-            )      
-          })}
-        </ListGroup>
-      </Container>
+            </Row> 
+            {filteredItems.map((item, index) => {
+                return (
+                  <PathItem
+                    key={item.title}
+                    selectItem={this.selectItem}
+                    removeItem={this.removeItem}
+                    changeElected={this.changeElected}
+                    elected={this.state.elected}
+                    index={index}
+                    title={item.title}
+                    shortDesc={item.short}
+                    fullDesc={item.full}
+                  />
+                )      
+              })}
+          </Container>
+        </Tab.Container>      
+      </Container>        
     );
   };
 }

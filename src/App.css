@@ -28,6 +28,41 @@
   right: 20px;
 }
 
-.title {
-  font-weight: bold;
+.desc {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.search {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.search:before {
+  content: url('./img/search.svg');
+  display: block;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.main-container {
+  position: relative;
+  margin-top: 20px;
+}
+
+.remove {
+  color: #ff0000;
+  cursor: pointer;
+}
+
+.elected:before {
+  content: url('./img/star.svg');
+  display: inline-block;
+  width: 20px;
+  height: 20px;
 }
