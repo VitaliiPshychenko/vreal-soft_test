@@ -1,0 +1,33 @@
+.header {
+  border-bottom: 1px solid black;
+  margin-bottom: 20px;
+}
+
+.add-path-container {
+  background-color: #333;
+  position: absolute;
+  left: 0;
+  top: 50px;
+  bottom: 50px;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 50px 0;
+}
+
+.list-item {
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.title {
+  font-weight: bold;
+}
