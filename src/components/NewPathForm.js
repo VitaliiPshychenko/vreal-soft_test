@@ -61,11 +61,11 @@ export class NewPathForm extends Component {
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlTextarea1">
             <Form.Label>Short description</Form.Label>
-            <Form.Control as="textarea" rows="3" value={shortDescription} onChange={this.onShortDescChange} />
+            <Form.Control as="textarea" rows="3" maxlength="160" value={shortDescription} onChange={this.onShortDescChange} />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlTextarea1">
             <Form.Label>Full description</Form.Label>
-            <Form.Control as="textarea" rows="3" value={fullDescription} onChange={this.onFullDescChange} />
+            <Form.Control as="textarea" rows="4" value={fullDescription} onChange={this.onFullDescChange} />
           </Form.Group>
           <Button variant="primary" type="submit">
             Add path

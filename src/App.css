@@ -66,3 +66,7 @@
   width: 20px;
   height: 20px;
 }
+
+textarea {
+  resize: none;
+}
