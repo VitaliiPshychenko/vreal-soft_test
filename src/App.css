@@ -55,11 +55,6 @@
   margin-top: 20px;
 }
 
-.remove {
-  color: #ff0000;
-  cursor: pointer;
-}
-
 .elected:before {
   content: url('./img/star.svg');
   display: inline-block;

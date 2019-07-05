@@ -99,6 +99,28 @@ class App extends Component {
       selectedIndex: null
     });
   };
+  
+  moveUp = () => {
+    const { data, selectedIndex } = this.state;
+    const removed = data.splice(selectedIndex, 1);
+
+    this.setState((prevState) => {
+      return {
+        data: [...removed, ...prevState.data]
+      }
+    });
+  };
+
+  moveDown = () => {
+    const { data, selectedIndex } = this.state;
+    const removed = data.splice(selectedIndex, 1);
+    
+    this.setState((prevState) => {
+      return {
+        data: [...prevState.data, ...removed]
+      }
+    });
+  }
 
   render() {
     const {
@@ -106,8 +128,8 @@ class App extends Component {
       showForm,
       query
     } = this.state;
-    
-    const filteredItems = this.search(data, query)
+
+    let filteredItems = this.search(data, query);
 
     return (
       <Container>
@@ -123,7 +145,7 @@ class App extends Component {
             />
           : null
         }
-
+        
         <Tab.Container id="list-group-tabs-example">
           <Container className="main-container">
             <Row>
@@ -137,8 +159,8 @@ class App extends Component {
                     key={item.title}
                     selectItem={this.selectItem}
                     removeItem={this.removeItem}
-                    changeElected={this.changeElected}
-                    elected={this.state.elected}
+                    moveUp={this.moveUp}
+                    moveDown={this.moveDown}
                     index={index}
                     title={item.title}
                     shortDesc={item.short}

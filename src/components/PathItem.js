@@ -4,7 +4,7 @@ import { ListGroup, Col, Tab, Row } from 'react-bootstrap';
 export class PathItem extends Component {
   constructor(props) {
     super(props)
-    
+
     this.state = {
       elected: false
     }
@@ -12,11 +12,25 @@ export class PathItem extends Component {
 
   changeElected = (event) => {
     event.preventDefault();
-    this.setState((prevState) => {
-      return {
-        elected: !prevState.elected
-      }      
-    });
+    const { elected } = this.state;
+
+    if(!elected) {
+      this.setState((prevState) => {
+        return {
+          elected: !prevState.elected
+        };
+      });
+
+      this.props.moveUp();
+    } else {
+      this.setState((prevState) => {
+        return {
+          elected: !prevState.elected
+        };
+      });
+      
+      this.props.moveDown();
+    }
   };
 
   render() {
