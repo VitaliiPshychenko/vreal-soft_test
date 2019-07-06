@@ -14,7 +14,7 @@ export class PathItem extends Component {
     event.preventDefault();
     const { elected } = this.state;
 
-    if(!elected) {
+    if (!elected) {
       this.setState((prevState) => {
         return {
           elected: !prevState.elected
@@ -38,7 +38,7 @@ export class PathItem extends Component {
       title,
       shortDesc,
       fullDesc,
-      index,
+      id,
       selectItem,
       removeItem,
     } = this.props
@@ -53,7 +53,7 @@ export class PathItem extends Component {
         <Row>
           <Col xs={6} onClick={this.clicked} className="mb-1">  
             <ListGroup>
-              <ListGroup.Item action href={`${index}`} onClick={(event) => selectItem(event, index)}>
+              <ListGroup.Item action href={`${id}`} onClick={(event) => selectItem(event, id)}>
                 <h5 className={electedClass}>{title}</h5>
                 <p>{shortDesc}</p>
               </ListGroup.Item>
@@ -62,12 +62,12 @@ export class PathItem extends Component {
         </Row>
         <Col xs={6} className="desc">
           <Tab.Content>
-            <Tab.Pane eventKey={`${index}`}>
+            <Tab.Pane eventKey={`${id}`}>
               <h3 >{title}</h3>
               <p>{fullDesc}</p>
               <div className="d-flex align-items-end flex-column">
                 <a href="1" className="text-primary d-block" onClick={this.changeElected}>{elected ? 'Remove from favorites' : 'Add to favorites'}</a>
-                <a href="2" className="text-danger d-block" onClick={removeItem}>Remove</a>
+                <a href="2" className="text-danger d-block" onClick={(event) => removeItem(event, id)}>Remove</a>
               </div>
             </Tab.Pane>
           </Tab.Content>

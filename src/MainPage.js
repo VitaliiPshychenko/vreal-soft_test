@@ -1,39 +1,46 @@
-import React, { Component } from 'react';
-import './App.css';
+import React from 'react';
 import { NewPathForm } from './components/NewPathForm';
 import { Container, Col, Button, Navbar, Form, Row, Tab } from 'react-bootstrap';
 import { PathItem } from './components/PathItem';
-import { firestore } from './firebase';
-import { collectIdsAndDocs } from './utilites';
 
-class App extends Component {
+
+export function MainPage(props) {
   constructor(props) {
     super(props);
 
     this.state = {
-      data: [],
+      data: [
+        {title: "1", short: "2", full: "3"},
+        {title: "Shop", short: "path to shop", full: "path to absolute"},
+        {title: "home", short: "path to home", full: "path to Sahunivka"}
+      ],
       showForm: false,
       query: '',
-      id: null,
+      selectedIndex: null,
       elected: false,
+      database: null
     };
   };
 
-  componentDidMount = async () => {
-    const snapshot = await firestore.collection('data').get();
-    const data = snapshot.docs.map(collectIdsAndDocs);
-
-    this.setState({ data });
+  componentDidMount() {
+    database.ref('/').on('value', () => {
+      console.log('changed');
+    })
   }
+ 
+  addPathToList = (title, short, full) => {  
+     this.setState(({ data }) => {
+      const newData = [
+        ...data,
+        {
+          title: title,
+          short: short,
+          full: full
+        }
+      ];
 
-  addPathToList = async (title, shortDesc, fullDesc) => {
-    const docRef = await firestore.collection('data').add({ title, shortDesc, fullDesc });
-    const doc = await docRef.get();
-    const newPath = collectIdsAndDocs(doc)
-    
-    this.setState(({ data }) => {
       return {
-        data: [newPath, ...data]
+        data: newData
       }
     })
     
@@ -53,7 +60,7 @@ class App extends Component {
       return items;
     } else {
       return items.filter(item => {
-        return item.title.includes(query) || item.fullDesc.includes(query);
+        return item.title.includes(query) || item.full.includes(query);
       });
     }
   };
@@ -64,30 +71,27 @@ class App extends Component {
     });
   };
 
-  selectItem = (event, id) => {
+  selectItem = (event, index) => {
     event.preventDefault();
-
     this.setState({
-      id
+      selectedIndex: index
     });
   };
 
-  removeItem = async (event, id) => {
+  removeItem = (event) => {
     event.preventDefault();
-
-    await firestore.doc(`data/${id}`).delete();
-    
-    const newData = this.state.data;
-    const data = newData.filter(item => item.id !== id);
+    const { data, selectedIndex } = this.state;
+    const newData = [...data.slice(0, selectedIndex), ...data.slice(selectedIndex + 1)];
 
     this.setState({
-      data
+      data: newData,
+      selectedIndex: null
     });
   };
   
   moveUp = () => {
-    const { data, id } = this.state;
-    const removed = data.splice(id, 1);
+    const { data, selectedIndex } = this.state;
+    const removed = data.splice(selectedIndex, 1);
 
     this.setState((prevState) => {
       return {
@@ -97,15 +101,15 @@ class App extends Component {
   };
 
   moveDown = () => {
-    const { data, id } = this.state;
-    const removed = data.splice(id, 1);
+    const { data, selectedIndex } = this.state;
+    const removed = data.splice(selectedIndex, 1);
     
     this.setState((prevState) => {
       return {
         data: [...prevState.data, ...removed]
       }
     });
-  };
+  }
 
   render() {
     const {
@@ -138,18 +142,18 @@ class App extends Component {
                 <Form.Control type="text" placeholder="Search..." className="pr-5" value={query} onChange={this.onSearchChange}/>
               </Col>
             </Row> 
-            {filteredItems.map((item) => {
+            {filteredItems.map((item, index) => {
                 return (
                   <PathItem
-                    key={item.id}
+                    key={item.title}
                     selectItem={this.selectItem}
                     removeItem={this.removeItem}
                     moveUp={this.moveUp}
                     moveDown={this.moveDown}
-                    id={item.id}
+                    index={index}
                     title={item.title}
-                    shortDesc={item.shortDesc}
-                    fullDesc={item.fullDesc}
+                    shortDesc={item.short}
+                    fullDesc={item.full}
                   />
                 )      
               })}
@@ -159,5 +163,4 @@ class App extends Component {
     );
   };
 }
-
-export default App;
+} 

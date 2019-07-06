@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, Container, Col } from 'react-bootstrap';
 
+
 export class NewPathForm extends Component {
   constructor(props) {
     super(props);
@@ -10,7 +11,6 @@ export class NewPathForm extends Component {
       shortDescription: '',
       fullDescription: '',
     };
-
   };
 
   onTitleChange = (event) => {
@@ -61,7 +61,7 @@ export class NewPathForm extends Component {
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlTextarea1">
             <Form.Label>Short description</Form.Label>
-            <Form.Control as="textarea" rows="3" maxlength="160" value={shortDescription} onChange={this.onShortDescChange} />
+            <Form.Control as="textarea" rows="3" maxLength="160" value={shortDescription} onChange={this.onShortDescChange} />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlTextarea1">
             <Form.Label>Full description</Form.Label>
