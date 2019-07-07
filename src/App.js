@@ -7,33 +7,39 @@ import { firestore } from './firebase';
 import { collectIdsAndDocs } from './utilites';
 
 class App extends Component {
+
   constructor(props) {
     super(props);
-
+    
     this.state = {
-      data: [],
+      data: [], 
       showForm: false,
       query: '',
       id: null,
-      elected: false,
+      selectedIndex: null
     };
-  };
 
+  }
+    
+
+    
+ 
   componentDidMount = async () => {
-    const snapshot = await firestore.collection('data').get();
+    const snapshot = await firestore.collection('data').orderBy("elected", "desc").get();
     const data = snapshot.docs.map(collectIdsAndDocs);
 
     this.setState({ data });
-  }
 
+  }
+  
   addPathToList = async (title, shortDesc, fullDesc) => {
-    const docRef = await firestore.collection('data').add({ title, shortDesc, fullDesc });
+    const docRef = await firestore.collection('data').add({ title, shortDesc, fullDesc, elected: false });
     const doc = await docRef.get();
     const newPath = collectIdsAndDocs(doc)
     
     this.setState(({ data }) => {
       return {
-        data: [newPath, ...data]
+        data: [...data, newPath]
       }
     })
     
@@ -67,8 +73,10 @@ class App extends Component {
   selectItem = (event, id) => {
     event.preventDefault();
 
+    const index = this.state.data.findIndex(item => {return item.id === id}) 
+
     this.setState({
-      id
+      selectedIndex: index
     });
   };
 
@@ -85,26 +93,32 @@ class App extends Component {
     });
   };
   
-  moveUp = () => {
-    const { data, id } = this.state;
-    const removed = data.splice(id, 1);
+  moveUp = (event, id) => {
+    const { data, selectedIndex } = this.state;
+    if (selectedIndex > 0 || selectedIndex !== null) {
+      const removed = data.splice(selectedIndex, 1);
 
-    this.setState((prevState) => {
-      return {
-        data: [...removed, ...prevState.data]
-      }
-    });
+      this.setState((prevState) => {
+        return {
+          data: [...removed, ...prevState.data],
+          selectedIndex: null
+        }
+      });
+    }
+    this.selectItem(event, id)
   };
 
-  moveDown = () => {
-    const { data, id } = this.state;
-    const removed = data.splice(id, 1);
-    
+  moveDown = (event,id) => {
+    const { data, selectedIndex } = this.state;
+    const removed = data.splice(selectedIndex, 1);
+  
     this.setState((prevState) => {
       return {
-        data: [...prevState.data, ...removed]
+        data: [...prevState.data, ...removed],
+        electedIndex: null 
       }
     });
+    this.selectItem(event,id)
   };
 
   render() {
@@ -114,7 +128,7 @@ class App extends Component {
       query
     } = this.state;
 
-    let filteredItems = this.search(data, query);
+    const filteredItems = this.search(data, query);
 
     return (
       <Container>
@@ -138,21 +152,23 @@ class App extends Component {
                 <Form.Control type="text" placeholder="Search..." className="pr-5" value={query} onChange={this.onSearchChange}/>
               </Col>
             </Row> 
-            {filteredItems.map((item) => {
-                return (
-                  <PathItem
-                    key={item.id}
-                    selectItem={this.selectItem}
-                    removeItem={this.removeItem}
-                    moveUp={this.moveUp}
-                    moveDown={this.moveDown}
-                    id={item.id}
-                    title={item.title}
-                    shortDesc={item.shortDesc}
-                    fullDesc={item.fullDesc}
-                  />
-                )      
-              })}
+            {filteredItems.map(item => {
+              return (
+                <PathItem
+                  key={item.id}
+                  selectItem={this.selectItem}
+                  removeItem={this.removeItem}
+                  moveUp={this.moveUp}
+                  moveDown={this.moveDown}
+                  changeElected={this.changeElected}
+                  isElected={item.elected}
+                  id={item.id}
+                  title={item.title}
+                  shortDesc={item.shortDesc}
+                  fullDesc={item.fullDesc}
+                />
+              )
+            })}
           </Container>
         </Tab.Container>      
       </Container>        

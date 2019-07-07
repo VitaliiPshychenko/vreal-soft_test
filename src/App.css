@@ -65,3 +65,11 @@
 textarea {
   resize: none;
 }
+
+.active {
+  display: block;
+}
+
+.not-active {
+  display: none;
+}
