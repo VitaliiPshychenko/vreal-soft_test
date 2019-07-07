@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/vreal-soft_test/static/css/main.86b3cc05.chunk.css",
+    "main.js": "/vreal-soft_test/static/js/main.13f45cbc.chunk.js",
+    "main.js.map": "/vreal-soft_test/static/js/main.13f45cbc.chunk.js.map",
+    "runtime~main.js": "/vreal-soft_test/static/js/runtime~main.569f0ae1.js",
+    "runtime~main.js.map": "/vreal-soft_test/static/js/runtime~main.569f0ae1.js.map",
+    "static/css/2.0624914a.chunk.css": "/vreal-soft_test/static/css/2.0624914a.chunk.css",
+    "static/js/2.02034ca6.chunk.js": "/vreal-soft_test/static/js/2.02034ca6.chunk.js",
+    "static/js/2.02034ca6.chunk.js.map": "/vreal-soft_test/static/js/2.02034ca6.chunk.js.map",
+    "index.html": "/vreal-soft_test/index.html",
+    "precache-manifest.0cf83e76a7494b86e8e88239c5bfe5cb.js": "/vreal-soft_test/precache-manifest.0cf83e76a7494b86e8e88239c5bfe5cb.js",
+    "service-worker.js": "/vreal-soft_test/service-worker.js",
+    "static/css/2.0624914a.chunk.css.map": "/vreal-soft_test/static/css/2.0624914a.chunk.css.map",
+    "static/css/main.86b3cc05.chunk.css.map": "/vreal-soft_test/static/css/main.86b3cc05.chunk.css.map",
+    "static/media/App.css": "/vreal-soft_test/static/media/star.c0210b84.svg"
+  }
+}
