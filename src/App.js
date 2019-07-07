@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import { NewPathForm } from './components/NewPathForm';
 import { Container, Col, Button, Navbar, Form, Row, Tab } from 'react-bootstrap';
-import { PathItem } from './components/PathItem';
 import { firestore } from './firebase';
 import { collectIdsAndDocs } from './utilites';
+import { PathList } from './components/PathList';
 
 class App extends Component {
 
@@ -18,12 +18,8 @@ class App extends Component {
       id: null,
       selectedIndex: null
     };
-
   }
-    
 
-    
- 
   componentDidMount = async () => {
     const snapshot = await firestore.collection('data').orderBy("elected", "desc").get();
     const data = snapshot.docs.map(collectIdsAndDocs);
@@ -148,27 +144,18 @@ class App extends Component {
         <Tab.Container id="list-group-tabs-example">
           <Container className="main-container">
             <Row>
-              <Col xs={6} className="search">
+              <Col md={6} className="search">
                 <Form.Control type="text" placeholder="Search..." className="pr-5" value={query} onChange={this.onSearchChange}/>
               </Col>
             </Row> 
-            {filteredItems.map(item => {
-              return (
-                <PathItem
-                  key={item.id}
-                  selectItem={this.selectItem}
-                  removeItem={this.removeItem}
-                  moveUp={this.moveUp}
-                  moveDown={this.moveDown}
-                  changeElected={this.changeElected}
-                  isElected={item.elected}
-                  id={item.id}
-                  title={item.title}
-                  shortDesc={item.shortDesc}
-                  fullDesc={item.fullDesc}
-                />
-              )
-            })}
+            <PathList
+              pathList={filteredItems}
+              selectItem={this.selectItem}
+              removeItem={this.removeItem}
+              moveUp={this.moveUp}
+              moveDown={this.moveDown}
+              changeElected={this.changeElected}
+             />
           </Container>
         </Tab.Container>      
       </Container>        

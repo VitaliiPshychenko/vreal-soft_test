@@ -73,3 +73,8 @@ textarea {
 .not-active {
   display: none;
 }
+
+.wrapper {
+  height: 400px;
+  overflow: auto scroll;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ListGroup, Col, Tab, Row } from 'react-bootstrap';
 import { firestore } from '../firebase';
+import { PathPage } from './PathPage';
 
 export class PathItem extends Component {
   constructor(props) {
@@ -81,28 +82,25 @@ export class PathItem extends Component {
 
     return (
       <>
-        <Row>
-          <Col xs={6} onClick={this.displayItem} className="mb-1">
+        
+          <Col md={6} onClick={this.displayItem} className="mb-1">
             <ListGroup>
               <ListGroup.Item action href={`${id}`} onClick={(event) => selectItem(event, id)}>
                 <h5 className={electedClass}>{title}</h5>
                 <p>{shortDesc}</p>
               </ListGroup.Item>
             </ListGroup>
+           
           </Col>
-        </Row>
-        <Col xs={6} className={isActive}>
-        <Tab.Content>
-          <Tab.Pane eventKey={`${id}`}>
-            <h3 >{title}</h3>
-            <p>{fullDesc}</p>
-            <div className="d-flex align-items-end flex-column">
-              <a href="1" className="text-primary d-block" onClick={this.changeElected}>{elected ? 'Remove from favorites' : 'Add to favorites'}</a>
-              <a href="2" className="text-danger d-block" onClick={(event) => removeItem(event, id)}>Remove</a>
-            </div>
-          </Tab.Pane>
-        </Tab.Content>
-        </Col>
+          <PathPage
+            isActive={isActive}
+            id={id}
+            title={title}
+            fullDesc={fullDesc}
+            changeElected={this.changeElected}
+            elected={elected}
+            removeItem={removeItem}
+          />
       </>
     )
   }
