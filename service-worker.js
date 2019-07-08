@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/vreal-soft_test/precache-manifest.0cf83e76a7494b86e8e88239c5bfe5cb.js"
+  "/vreal-soft_test/precache-manifest.06acb38458b0afaac95feb3b1fdeb7ca.js"
 );
 
 self.addEventListener('message', (event) => {
