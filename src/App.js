@@ -101,7 +101,7 @@ class App extends Component {
         }
       });
     }
-    this.selectItem(event, id)
+    this.selectItem(event, id);
   };
 
   moveDown = (event,id) => {
@@ -111,10 +111,10 @@ class App extends Component {
     this.setState((prevState) => {
       return {
         data: [...prevState.data, ...removed],
-        electedIndex: null 
+        selectedIndex: null 
       }
     });
-    this.selectItem(event,id)
+    this.selectItem(event,id);
   };
 
   render() {

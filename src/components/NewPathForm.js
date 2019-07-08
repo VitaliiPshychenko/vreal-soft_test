@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, Container, Col } from 'react-bootstrap';
+import { Map } from './Map';
 
 
 export class NewPathForm extends Component {
@@ -49,6 +50,7 @@ export class NewPathForm extends Component {
     } = this.state;
 
     return (
+
       <Container  className="bg-light add-path-container justify-content-start">
         <button type="button" className="close" aria-label="Close" onClick={this.props.toggleForm}>
           <span aria-hidden="true">&times;</span>
@@ -67,11 +69,24 @@ export class NewPathForm extends Component {
             <Form.Label>Full description</Form.Label>
             <Form.Control as="textarea" rows="4" value={fullDescription} onChange={this.onFullDescChange} />
           </Form.Group>
+          <Form.Group>
+          <Form.Text>
+            Length 
+          </Form.Text>
+          </Form.Group>
           <Button variant="primary" type="submit">
             Add path
           </Button>
         </Form>
         </Col>
+        <Col xs={6}>
+          <Map
+            googleMapURL={'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyBz7Oa8C8MOOd20FJSUaYQc0lrlLkvn0m4'}
+            loadingElement={<div style={{ height: '400px' }} />}
+            containerElement={<div style={{ height: '400px' }} />}
+            mapElement={<div style={{ height: '400px' }} />}
+          />
+        </Col>    
       </Container>
     );
   };

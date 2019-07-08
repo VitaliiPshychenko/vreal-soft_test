@@ -4,17 +4,17 @@
 }
 
 .add-path-container {
-  background-color: #333;
-  position: absolute;
-  left: 0;
-  top: 50px;
+  align-items: center;
   bottom: 50px;
-  right: 0;
+  background-color: rgb(39, 39, 39);
   display: flex;
   justify-content: center;
-  align-items: center;
+  left: 0;
+  min-height: 500px;
+  position: absolute;
+  right: 0;
+  top: 50px;
   z-index: 999;
-  padding: 50px 0;
 }
 
 .list-item {
@@ -24,8 +24,8 @@
 
 .close {
   position: absolute;
-  top: 20px;
   right: 20px;
+  top: 20px;
 }
 
 .desc {
@@ -75,6 +75,6 @@ textarea {
 }
 
 .wrapper {
-  height: 400px;
+  height: 500px;
   overflow: auto scroll;
 }

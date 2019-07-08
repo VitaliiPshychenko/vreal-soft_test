@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListGroup, Col, Tab, Row } from 'react-bootstrap';
+import { ListGroup, Col } from 'react-bootstrap';
 import { firestore } from '../firebase';
 import { PathPage } from './PathPage';
 
@@ -16,26 +16,26 @@ export class PathItem extends Component {
   componentDidMount = () => {
     this.setState({
       elected: this.props.isElected
-    })
+    });
   }
 
   updateElected = (elected) => {
     const dataRef = firestore.doc(`data/${this.props.id}`);
-    dataRef.update({elected: !elected})
+    dataRef.update({elected: !elected});
   }
 
   displayItem = () => {
     this.setState({
       display: true
-    })
+    });
   }
 
   toggleItem = () => {
     this.setState((prevState) => {
       return {
         display: !prevState.display
-      }
-    })
+      };
+    });
   }
 
   changeElected = (event, id) => {
@@ -78,30 +78,26 @@ export class PathItem extends Component {
       ? 'position-relative elected'
       : 'position-relative';
 
-    const isActive = display ? 'desc active' : 'desc not-active';
-
     return (
       <>
-        
-          <Col md={6} onClick={this.displayItem} className="mb-1">
-            <ListGroup>
-              <ListGroup.Item action href={`${id}`} onClick={(event) => selectItem(event, id)}>
-                <h5 className={electedClass}>{title}</h5>
-                <p>{shortDesc}</p>
-              </ListGroup.Item>
-            </ListGroup>
-           
-          </Col>
-          <PathPage
-            isActive={isActive}
-            id={id}
-            title={title}
-            fullDesc={fullDesc}
-            changeElected={this.changeElected}
-            elected={elected}
-            removeItem={removeItem}
-          />
+        <Col md={6} onClick={this.displayItem} className="mb-1 pl-0">
+          <ListGroup>
+            <ListGroup.Item action href={`${id}`} onClick={(event) => selectItem(event, id)}>
+              <h5 className={electedClass}>{title}</h5>
+              <p>{shortDesc}</p>
+            </ListGroup.Item>
+          </ListGroup>
+        </Col>
+        <PathPage
+          display={display}
+          id={id}
+          title={title}
+          fullDesc={fullDesc}
+          changeElected={this.changeElected}
+          elected={elected}
+          removeItem={removeItem}
+        />
       </>
-    )
+    );
   }
 }
